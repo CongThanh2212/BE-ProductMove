@@ -1,6 +1,9 @@
 const querySQL = require('./querySQL')
 const db = require('../config/database')
 const {hash} = require('./generalFunction')
+const nodemailer = require('nodemailer')
+const otplib = require('otplib')
+const randomstring = require('randomstring')
 
 class GeneralModel {
 
@@ -34,9 +37,12 @@ class GeneralModel {
         const infoProduct = querySQL.selectAllFromTableWhere('new_product', ['batchId'], [batchId]);
 
         // Search history of product
-        const historyPr = "SELECT status, date, locationId FROM history "
-            + "WHERE id = '" + batchId + "' OR id = '" + importId + "' OR id = '" + productId + "' OR id = '" + oldId + "' "
-            + "ORDER BY date asc";
+        var historyPr = "SELECT status, date, locationId FROM history "
+            + "WHERE id = '" + batchId + "'";
+        if(importId) historyPr += " OR id = '" + importId + "'";
+        if(productId) historyPr += " OR id = '" + productId + "'";
+        if(oldId) historyPr += " OR id = '" + oldId + "'";
+        historyPr += " ORDER BY date asc";
         
         const [info, fields] = await db.query(infoProduct);
         const [history, fields2] = await db.query(historyPr);
@@ -155,6 +161,149 @@ class GeneralModel {
             return result;
         } catch (error) {
             return {access: 0};
+        }
+    }
+
+    async editAccountModel(id, name, address, phone) {
+        const sql = querySQL.updateSet('account', ['name', 'address', 'phone'], [name, address, phone], ['accountId'], [id]);
+        
+        try {
+            await db.query(sql);
+        
+            return {access: 1};
+        } catch (error) {
+            return {access: 0};
+        }
+    }
+
+    async cfEmailModel(id, email) {
+        try {
+            const find = querySQL.selectFromTableWhere(['accountId'], 'account', ['email'], [email]);
+            const [result, fields] = await db.query(find);
+
+            if (result.length == 0) return {access: false, mess: 'Email đã đăng ký'};
+
+            // send otp
+            const mailServer = 'systemvct@gmail.com';
+            const token = otplib.totp.generate(randomstring.generate());
+
+            var transporter =  nodemailer.createTransport({
+                host: 'smtp.gmail.com',
+                port: 465,
+                secure: true,
+                auth: {
+                    user: mailServer,
+                    pass: 'fgphnxvfildhrqsr'
+                }
+            });
+            var content = 'Đây là mã OTP: ' + token;
+            var options = {
+                from: `Emma <${mailServer}>`,
+                to: email,
+                subject: 'Mã OTP',
+                text: content
+            }
+            await transporter.sendMail(options);
+
+            const del = querySQL.delete('otp', ['id', 'email'], [id, email]);
+            const createOTP = querySQL.insertIntoFull('otp', [[id, email, token]]);
+            await db.query(del);
+            await db.query(createOTP);
+        
+            return {access: true};
+        } catch (error) {
+            return {access: false};
+        }
+    }
+
+    async cfAndUpdateModel(id, otp) {
+        try {
+            const findOTP = querySQL.selectFromTableWhere(['email'], 'otp', ['id', 'otp'], [id, otp]);
+            const [result, fields] = await db.query(findOTP);
+            if (result.length == 0) return {access: false, mess: 'OTP không chính xác'};
+
+            const delOTP = querySQL.delete('otp', ['id', 'otp'], [id, otp]);
+            const updateEmaiil = querySQL.updateSet('account', ['email'], [result[0].email], ['accountId'], [id]);
+            await db.query(delOTP);
+            await db.query(updateEmaiil);
+        
+            return {access: true};
+        } catch (error) {
+            return {access: false};
+        }
+    }
+
+    async forgotOrChangeModel(id, email) {
+        try {
+            var Email = email, Id = id;
+            if (id) {
+                const findEmail = querySQL.selectFromTableWhere(['email'], 'account', ['accountId'], [id]);
+                const [result, fields] = await db.query(findEmail);
+                if (result.length == 0) return {access: false, mess: 'Không tìm thấy id tài khoản'};
+                Email = result[0].email;
+            } else {
+                const findEmail = querySQL.selectFromTableWhere(['accountId'], 'account', ['email'], [email]);
+                const [result, fields] = await db.query(findEmail);
+                if (result.length == 0) return {access: false, mess: 'Email chưa đăng ký'};
+                Id = result[0].accountId;
+            }
+
+            // send otp
+            const mailServer = 'systemvct@gmail.com';
+            const token = otplib.totp.generate(randomstring.generate());
+
+            var transporter =  nodemailer.createTransport({
+                host: 'smtp.gmail.com',
+                port: 465,
+                secure: true,
+                auth: {
+                    user: mailServer,
+                    pass: 'fgphnxvfildhrqsr'
+                }
+            });
+            var content = 'Đây là mã OTP: ' + token;
+            var options = {
+                from: `Emma <${mailServer}>`,
+                to: Email,
+                subject: 'Mã OTP',
+                text: content
+            }
+            await transporter.sendMail(options);
+
+            const del = querySQL.delete('otp', ['id', 'email'], [Id, Email]);
+            const createOTP = querySQL.insertIntoFull('otp', [[Id, Email, token]]);
+            await db.query(del);
+            await db.query(createOTP);
+        
+            return {access: true};
+        } catch (error) {
+            return {access: false};
+        }
+    }
+
+    async verificationForgotOrChangeModel(otp) {
+        try {
+            const findOTP = querySQL.selectFromTableWhere(['id'], 'otp', ['otp'], [otp]);
+            const [result, fields] = await db.query(findOTP);
+            if (result.length == 0) return {access: false, mess: 'OTP không chính xác'};
+
+            const delOTP = querySQL.delete('otp', ['otp'], [otp]);
+            await db.query(delOTP);
+        
+            return {access: true, id: result[0].id};
+        } catch (error) {
+            return {access: false};
+        }
+    }
+
+    async changePassModel(id, password) {
+        try {
+            const update = querySQL.updateSet('account', ['password'], [hash(password)], ['accountId'], [id]);
+            await db.query(update);
+        
+            return {access: true};
+        } catch (error) {
+            return {access: false};
         }
     }
 }

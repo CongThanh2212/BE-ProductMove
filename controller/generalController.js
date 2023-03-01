@@ -64,16 +64,99 @@ class GeneralController {
         res.json(result);
     }
 
+    async confirmEmail(req, res) {
+        res.header("Access-Control-Allow-Origin", "*");
+
+        const id = req.body.id;
+        const email = req.body.email;
+
+        if (!id || !email) return res.status(400).send('Cú pháp không hợp lệ');
+        if (!await generalModel.checkAccess(id)) return res.status(403).send('Không có quyền truy cập');
+        
+        const result = await generalModel.cfEmailModel(id, email);
+
+        res.json(result);
+    }
+
+    async cfAndUpdateEmail(req, res) {
+        res.header("Access-Control-Allow-Origin", "*");
+
+        const id = req.body.id;
+        const otp = req.body.otp;
+
+        if (!id || !otp) return res.status(400).send('Cú pháp không hợp lệ');
+        if (!await generalModel.checkAccess(id)) return res.status(403).send('Không có quyền truy cập');
+        
+        const result = await generalModel.cfAndUpdateModel(id, otp);
+
+        res.json(result);
+    }
+
+    async forgotOrChange(req, res) {
+        res.header("Access-Control-Allow-Origin", "*");
+
+        const email = req.body.email;
+        const id = req.body.id;
+
+        if (!id && !email) return res.status(400).send('Cú pháp không hợp lệ');
+        
+        const result = await generalModel.forgotOrChangeModel(id, email);
+
+        res.json(result);
+    }
+
+    async verificationForgotOrChange(req, res) {
+        res.header("Access-Control-Allow-Origin", "*");
+
+        const otp = req.body.otp;
+
+        if (!otp) return res.status(400).send('Cú pháp không hợp lệ');
+        
+        const result = await generalModel.verificationForgotOrChangeModel(otp);
+
+        res.json(result);
+    }
+
+    async changePass(req, res) {
+        res.header("Access-Control-Allow-Origin", "*");
+
+        const id = req.body.id;
+        const password = req.body.password;
+
+        if (!id || !password) return res.status(400).send('Cú pháp không hợp lệ');
+        if (!await generalModel.checkAccess(id)) return res.status(403).send('Không có quyền truy cập');
+        
+        const result = await generalModel.changePassModel(id, password);
+
+        res.json(result);
+    }
+
     async otherAccountProfile(req, res) {
         const id = req.body.id;
         const name = req.body.name;
 
-        if (!id) return res.status(400).send('Cú pháp không hợp lệ');
+        if (!id || !name) return res.status(400).send('Cú pháp không hợp lệ');
         if (!await generalModel.checkAccess(id)) return res.status(403).send('Không có quyền truy cập');
         
         const result = await generalModel.otherAccountProfileModel(name);
 
         res.header("Access-Control-Allow-Origin", "*");
+        res.json(result);
+    }
+
+    async editAccount(req, res) {
+        res.header("Access-Control-Allow-Origin", "*");
+
+        const id = req.body.id;
+        const name = req.body.name;
+        const address = req.body.address;
+        const phone = req.body.phone;
+
+        if (!id || !name || !address || !phone) return res.status(400).send('Cú pháp không hợp lệ');
+        if (!await generalModel.checkAccess(id)) return res.status(403).send('Không có quyền truy cập');
+        
+        const result = await generalModel.editAccountModel(id, name, address, phone);
+
         res.json(result);
     }
 }

@@ -23,7 +23,7 @@ class ServiceModel {
 
             return result;
         } catch (error) {
-            return {access: 0};
+            return {access: false};
         }
     }
 
@@ -37,7 +37,7 @@ class ServiceModel {
 
             return result;
         } catch (error) {
-            return {access: 0};
+            return {access: false};
         }
     }
 
@@ -49,7 +49,7 @@ class ServiceModel {
 
             return result;
         } catch (error) {
-            return {access: 0};
+            return {access: false};
         }
     }
 
@@ -61,7 +61,7 @@ class ServiceModel {
 
             return result;
         } catch (error) {
-            return {access: 0};
+            return {access: false};
         }
     }
 
@@ -76,9 +76,9 @@ class ServiceModel {
             await db.query(updateSv);
             await db.query(history);
 
-            return {access: 1};
+            return {access: true};
         } catch (error) {
-            return {access: 0};
+            return {access: false};
         }
     }
 
@@ -93,9 +93,9 @@ class ServiceModel {
             await db.query(updateSv);
             await db.query(history);
 
-            return {access: 1};
+            return {access: true};
         } catch (error) {
-            return {access: 0};
+            return {access: false};
         }
     }
 
@@ -107,9 +107,9 @@ class ServiceModel {
             await db.query(updatePr);
             await db.query(history);
 
-            return {access: 1};
+            return {access: true};
         } catch (error) {
-            return {access: 0};
+            return {access: false};
         }
     }
 
@@ -124,7 +124,7 @@ class ServiceModel {
 
             return result;
         } catch (error) {
-            return {access: 0};
+            return {access: false};
         }
     }
 
@@ -139,7 +139,7 @@ class ServiceModel {
 
             return result;
         } catch (error) {
-            return {access: 0};
+            return {access: false};
         }
     }
 
@@ -154,7 +154,7 @@ class ServiceModel {
 
             return result;
         } catch (error) {
-            return {access: 0};
+            return {access: false};
         }
     }
 
@@ -169,7 +169,7 @@ class ServiceModel {
 
             return result;
         } catch (error) {
-            return {access: 0};
+            return {access: false};
         }
     }
 
@@ -184,7 +184,7 @@ class ServiceModel {
 
             return result;
         } catch (error) {
-            return {access: 0};
+            return {access: false};
         }
     }
 
@@ -199,7 +199,7 @@ class ServiceModel {
 
             return result;
         } catch (error) {
-            return {access: 0};
+            return {access: false};
         }
     }
 }

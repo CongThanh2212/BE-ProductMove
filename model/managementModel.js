@@ -23,7 +23,7 @@ class ManagementModel {
         
             return result;
         } catch (error) {
-            return {access: 0};
+            return {access: false};
         }
     }
 
@@ -36,7 +36,7 @@ class ManagementModel {
         
             return result;
         } catch (error) {
-            return {access: 0};
+            return {access: false};
         } 
     }
 
@@ -46,9 +46,9 @@ class ManagementModel {
         try {
             await db.query(sql);
         
-            return {access: 1};
+            return {access: true};
         } catch (error) {
-            return {mess: 'Tài khoản không tồn tại'};
+            return {access: false, mess: 'Tài khoản không tồn tại'};
         }
     }
 
@@ -58,7 +58,7 @@ class ManagementModel {
 
         const check = querySQL.selectFromTableWhere(['accountId'], 'account', ['username'], [userName]);
         const [result, fields] = await db.query(check);
-        if (result.length > 0) return {access: 0, mess: 'Tài khoản đã tồn tại'};
+        if (result.length > 0) return {access: false, mess: 'Tài khoản đã tồn tại'};
 
         const sql = querySQL.insertInto('account', ['accountId', 'userName', 'password', 'type'],
             [[id, userName, pass, type]]);
@@ -66,9 +66,9 @@ class ManagementModel {
         try {
             await db.query(sql);
         
-            return {access: 1};
+            return {access: true};
         } catch (error) {
-            return {access: 0};
+            return {access: false};
         }
     }
 
@@ -80,7 +80,7 @@ class ManagementModel {
         
             return result; 
         } catch (error) {
-            return {access: 0};
+            return {access: false};
         }
     }
 
@@ -89,9 +89,9 @@ class ManagementModel {
 
         try {
             await db.query(sql);
-            return {access: 1};
+            return {access: true};
         } catch (error) {
-            return {access: 0, mess: 'Dòng sản phẩm đã tồn tại'};
+            return {access: false, mess: 'Dòng sản phẩm đã tồn tại'};
         }
     }
 
@@ -124,7 +124,7 @@ class ManagementModel {
             
             return ({produce: produce, fail: fail});
         } catch (error) {
-            return {access: 0};
+            return {access: false};
         } 
     }
 
@@ -156,7 +156,7 @@ class ManagementModel {
             
             return ({sold: sold, old: old}); 
         } catch (error) {
-            return {access: 0};
+            return {access: false};
         }
     }
 
@@ -190,7 +190,7 @@ class ManagementModel {
             
             return ({fixed: fixed, fail: fail}); 
         } catch (error) {
-            return {access: 0};
+            return {access: false};
         }
     }
 }

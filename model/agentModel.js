@@ -44,9 +44,9 @@ class AgentModel {
             await db.query(products);
             await db.query(history);
 
-            return {access: 1};
+            return {access: true};
         } catch (error) {
-            return {access: 0};
+            return {access: false};
         }
     }
 
@@ -71,9 +71,9 @@ class AgentModel {
             await db.query(old);
             await db.query(his);
 
-            return {access: 1};
+            return {access: true};
         } catch (error) {
-            return {access: 0};
+            return {access: false};
         }
     }
 
@@ -87,7 +87,7 @@ class AgentModel {
         
             return result;
         } catch (error) {
-            return {access: 0};
+            return {access: false};
         }
     }
 
@@ -99,7 +99,7 @@ class AgentModel {
         
             return result;
         } catch (error) {
-            return {access: 0};
+            return {access: false};
         }
     }
 
@@ -129,9 +129,9 @@ class AgentModel {
             await db.query(services);
             await db.query(history);
 
-            return {access: 1};
+            return {access: true};
         } catch (error) {
-            return {access: 0};
+            return {access: false};
         }
     }
 
@@ -158,9 +158,9 @@ class AgentModel {
 
             await db.query(history);
 
-            return {access: 1};
+            return {access: true};
         } catch (error) {
-            return {access: 0};
+            return {access: false};
         }
     }
 
@@ -174,7 +174,7 @@ class AgentModel {
         
             return result;
         } catch (error) {
-            return {access: 0};
+            return {access: false};
         }
     }
 
@@ -188,7 +188,7 @@ class AgentModel {
         
             return result;
         } catch (error) {
-            return {access: 0};
+            return {access: false};
         }
     }
 
@@ -203,9 +203,9 @@ class AgentModel {
             await db.query(updatePr);
             await db.query(history);
 
-            return {access: 1};
+            return {access: true};
         } catch (error) {
-            return {access: 0};
+            return {access: false};
         }
     }
 
@@ -219,7 +219,7 @@ class AgentModel {
         
             return result;
         } catch (error) {
-            return {access: 0};
+            return {access: false};
         }
     }
 
@@ -233,7 +233,7 @@ class AgentModel {
         
             return result;
         } catch (error) {
-            return {access: 0};
+            return {access: false};
         }
     }
 
@@ -257,9 +257,9 @@ class AgentModel {
             await db.query(services);
             await db.query(history);
 
-            return {access: 1};
+            return {access: true};
         } catch (error) {
-            return {access: 0};
+            return {access: false};
         }
     }
 
@@ -273,7 +273,7 @@ class AgentModel {
         
             return result;
         } catch (error) {
-            return {access: 0};
+            return {access: false};
         }
     }
 
@@ -285,7 +285,7 @@ class AgentModel {
         
             return result;
         } catch (error) {
-            return {access: 0};
+            return {access: false};
         }
     }
 
@@ -300,9 +300,9 @@ class AgentModel {
             await db.query(updateSv);
             await db.query(history);
 
-            return {access: 1};
+            return {access: true};
         } catch (error) {
-            return {access: 0};
+            return {access: false};
         }
     }
 
@@ -314,7 +314,7 @@ class AgentModel {
         
             return result;
         } catch (error) {
-            return ({access: 0})
+            return ({access: false})
         }
     }
 
@@ -327,9 +327,9 @@ class AgentModel {
             await db.query(update);
             await db.query(history);
 
-            return {access: 1};
+            return {access: true};
         } catch (error) {
-            return {access: 0};
+            return {access: false};
         }
     }
 
@@ -344,7 +344,7 @@ class AgentModel {
         
             return result;
         } catch (error) {
-            return ({access: 0})
+            return ({access: false})
         }
     }
 
@@ -359,7 +359,7 @@ class AgentModel {
         
             return result;
         } catch (error) {
-            return ({access: 0})
+            return ({access: false})
         }
     }
 
@@ -374,7 +374,7 @@ class AgentModel {
         
             return result;
         } catch (error) {
-            return ({access: 0})
+            return ({access: false})
         }
     }
 
@@ -389,7 +389,7 @@ class AgentModel {
         
             return result;
         } catch (error) {
-            return ({access: 0})
+            return ({access: false})
         }
     }
 
@@ -403,7 +403,7 @@ class AgentModel {
         
             return result;
         } catch (error) {
-            return ({access: 0})
+            return ({access: false})
         }
     }
 }

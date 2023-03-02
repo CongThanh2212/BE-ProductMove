@@ -23,7 +23,7 @@ class ProducerModel {
             const [result, fields] = await db.query(sql);
             return result;
         } catch (error) {
-            return ({access: 0})
+            return ({access: false})
         }
     }
 
@@ -41,9 +41,9 @@ class ProducerModel {
                 await db.query(history);
             }
     
-            return {access: 1};
+            return {access: true};
         } catch (error) {
-            return ({access: 0})
+            return ({access: false})
         }
     }
 
@@ -59,7 +59,7 @@ class ProducerModel {
             
             return list;
         } catch (error) {
-            return ({access: 0})
+            return ({access: false})
         }
     }
 
@@ -72,7 +72,7 @@ class ProducerModel {
 
             return result;
         } catch (error) {
-            return ({access: 0})
+            return ({access: false})
         }
     }
 
@@ -99,9 +99,9 @@ class ProducerModel {
                 await db.query(history);
             }
 
-            return {access: 1};
+            return {access: true};
         } catch (error) {
-            return ({access: 0})
+            return ({access: false})
         }
     }
 
@@ -115,7 +115,7 @@ class ProducerModel {
 
             return result0.concat(result1);
         } catch (error) {
-            return ({access: 0})
+            return ({access: false})
         }
     }
 
@@ -128,9 +128,9 @@ class ProducerModel {
             await db.query(receive);
             await db.query(history);
 
-            return {access: 1};
+            return {access: true};
         } catch (error) {
-            return ({access: 0})
+            return ({access: false})
         }
     }
 
@@ -143,9 +143,9 @@ class ProducerModel {
             await db.query(receive);
             await db.query(history);
 
-            return {access: 1};
+            return {access: true};
         } catch (error) {
-            return ({access: 0})
+            return ({access: false})
         }
     }
 
@@ -159,7 +159,7 @@ class ProducerModel {
 
             return (old.concat(fail));
         } catch (error) {
-            return ({access: 0})
+            return ({access: false})
         }
     }
 
@@ -173,7 +173,7 @@ class ProducerModel {
             const [result, fields] = await db.query(sql);
             return result;
         } catch (error) {
-            return ({access: 0})
+            return ({access: false})
         }
     }
 
@@ -196,7 +196,7 @@ class ProducerModel {
             
             return list;
         } catch (error) {
-            return ({access: 0})
+            return ({access: false})
         }
     }
 
@@ -219,7 +219,7 @@ class ProducerModel {
             
             return list;
         } catch (error) {
-            return ({access: 0})
+            return ({access: false})
         }
     }
 
@@ -242,7 +242,7 @@ class ProducerModel {
             
             return list;
         } catch (error) {
-            return ({access: 0})
+            return ({access: false})
         }
     }
 
@@ -257,7 +257,7 @@ class ProducerModel {
         
             return result;
         } catch (error) {
-            return ({access: 0})
+            return ({access: false})
         }
     }
 
@@ -272,7 +272,7 @@ class ProducerModel {
         
             return result;
         } catch (error) {
-            return ({access: 0})
+            return ({access: false})
         }
     }
 
@@ -287,7 +287,7 @@ class ProducerModel {
         
             return result;
         } catch (error) {
-            return ({access: 0})
+            return ({access: false})
         }
     }
 
@@ -302,7 +302,7 @@ class ProducerModel {
         
             return result;
         } catch (error) {
-            return ({access: 0})
+            return ({access: false})
         }
     }
 
@@ -316,7 +316,7 @@ class ProducerModel {
         
             return result;
         } catch (error) {
-            return ({access: 0})
+            return ({access: false})
         }
     }
 }

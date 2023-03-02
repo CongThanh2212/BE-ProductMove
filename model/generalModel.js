@@ -136,7 +136,7 @@ class GeneralModel {
         
             return result;
         } catch (error) {
-            return {access: 0};
+            return {access: false};
         }
     }
 
@@ -148,7 +148,7 @@ class GeneralModel {
         
             return result;
         } catch (error) {
-            return {access: 0};
+            return {access: false};
         }
     }
 
@@ -160,7 +160,7 @@ class GeneralModel {
         
             return result;
         } catch (error) {
-            return {access: 0};
+            return {access: false};
         }
     }
 
@@ -170,9 +170,9 @@ class GeneralModel {
         try {
             await db.query(sql);
         
-            return {access: 1};
+            return {access: true};
         } catch (error) {
-            return {access: 0};
+            return {access: false};
         }
     }
 

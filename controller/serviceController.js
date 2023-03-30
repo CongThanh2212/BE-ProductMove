@@ -3,6 +3,7 @@ const serviceModel = require('../model/serviceModel')
 class ServiceController {
 
     async listFail(req, res) {
+        res.header("Access-Control-Allow-Origin", "*");
         const serviceId = req.query.serviceId;
 
         if (!serviceId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -10,11 +11,11 @@ class ServiceController {
         
         const result = await serviceModel.listFailModel(serviceId);
 
-        res.header("Access-Control-Allow-Origin", "*");
         res.json(result);
     }
 
     async listFixed(req, res) {
+        res.header("Access-Control-Allow-Origin", "*");
         const serviceId = req.query.serviceId;
 
         if (!serviceId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -22,11 +23,11 @@ class ServiceController {
         
         const result = await serviceModel.listFixedModel(serviceId);
 
-        res.header("Access-Control-Allow-Origin", "*");
         res.json(result);
     }
 
     async listFixing(req, res) {
+        res.header("Access-Control-Allow-Origin", "*");
         const serviceId = req.query.serviceId;
 
         if (!serviceId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -34,11 +35,11 @@ class ServiceController {
         
         const result = await serviceModel.listFixingModel(serviceId);
 
-        res.header("Access-Control-Allow-Origin", "*");
         res.json(result);
     }
 
     async listSendService(req, res) {
+        res.header("Access-Control-Allow-Origin", "*");
         const serviceId = req.query.serviceId;
 
         if (!serviceId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -46,11 +47,11 @@ class ServiceController {
         
         const result = await serviceModel.listSendServiceModel(serviceId);
 
-        res.header("Access-Control-Allow-Origin", "*");
         res.json(result);
     }
 
     async receiveSendService(req, res) {
+        res.header("Access-Control-Allow-Origin", "*");
         const serviceId = req.body.serviceId;
         const productId = req.body.productId;
         const date = req.body.date;
@@ -61,11 +62,11 @@ class ServiceController {
         
         const result = await serviceModel.receiveSendServiceModel(serviceId, productId, date, numberOfService);
 
-        res.header("Access-Control-Allow-Origin", "*");
         res.json(result);
     }
 
     async sendFixed(req, res) {
+        res.header("Access-Control-Allow-Origin", "*");
         const serviceId = req.body.serviceId;
         const agentId = req.body.agentId;
         const productId = req.body.productId;
@@ -77,11 +78,11 @@ class ServiceController {
         
         const result = await serviceModel.sendFixedModel(productId, date, numberOfService, agentId);
 
-        res.header("Access-Control-Allow-Origin", "*");
         res.json(result);
     }
 
     async sendFail(req, res) {
+        res.header("Access-Control-Allow-Origin", "*");
         const serviceId = req.body.serviceId;
         const producerId = req.body.producerId;
         const productId = req.body.productId;
@@ -92,11 +93,11 @@ class ServiceController {
         
         const result = await serviceModel.sendFailModel(productId, date, producerId);
 
-        res.header("Access-Control-Allow-Origin", "*");
         res.json(result);
     }
 
     async statisticalSendServiceByMonth(req, res) {
+        res.header("Access-Control-Allow-Origin", "*");
         const serviceId = req.query.serviceId;
 
         if (!serviceId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -104,11 +105,11 @@ class ServiceController {
         
         const result = await serviceModel.sendServiceMonthModel(serviceId);
 
-        res.header("Access-Control-Allow-Origin", "*");
         res.json(result);
     }
 
     async statisticalSendServiceByYear(req, res) {
+        res.header("Access-Control-Allow-Origin", "*");
         const serviceId = req.query.serviceId;
 
         if (!serviceId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -116,11 +117,11 @@ class ServiceController {
         
         const result = await serviceModel.sendServiceYearModel(serviceId);
 
-        res.header("Access-Control-Allow-Origin", "*");
         res.json(result);
     }
 
     async statisticalFixedByMonth(req, res) {
+        res.header("Access-Control-Allow-Origin", "*");
         const serviceId = req.query.serviceId;
 
         if (!serviceId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -128,11 +129,11 @@ class ServiceController {
         
         const result = await serviceModel.fixedMonthModel(serviceId);
 
-        res.header("Access-Control-Allow-Origin", "*");
         res.json(result);
     }
 
     async statisticalFixedByYear(req, res) {
+        res.header("Access-Control-Allow-Origin", "*");
         const serviceId = req.query.serviceId;
 
         if (!serviceId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -140,11 +141,11 @@ class ServiceController {
         
         const result = await serviceModel.fixedYearModel(serviceId);
 
-        res.header("Access-Control-Allow-Origin", "*");
         res.json(result);
     }
 
     async statisticalFailByMonth(req, res) {
+        res.header("Access-Control-Allow-Origin", "*");
         const serviceId = req.query.serviceId;
 
         if (!serviceId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -152,11 +153,11 @@ class ServiceController {
         
         const result = await serviceModel.failMonthModel(serviceId);
 
-        res.header("Access-Control-Allow-Origin", "*");
         res.json(result);
     }
 
     async statisticalFailByYear(req, res) {
+        res.header("Access-Control-Allow-Origin", "*");
         const serviceId = req.query.serviceId;
 
         if (!serviceId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -164,7 +165,6 @@ class ServiceController {
         
         const result = await serviceModel.failYearModel(serviceId);
 
-        res.header("Access-Control-Allow-Origin", "*");
         res.json(result);
     }
 }

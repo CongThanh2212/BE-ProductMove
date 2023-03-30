@@ -55,7 +55,7 @@ class AgentModel {
             var oldValues = [];
             var hisValues = [];
             for (var i = 0; i < arrProduct.length; i++) {
-                const oldId = 'OLD' + randomstring.generate(7);;
+                const oldId = 'OLD' + randomstring.generate(7);
                 const pr = arrProduct[i];
                 oldValues[i] = [oldId, pr.importBatchId, pr.batchId, pr.batchNumber, pr.amount, 'send_old', pr.productLine, pr.capacity,
                     date, 'null', pr.producerId, agentId];
@@ -67,7 +67,7 @@ class AgentModel {
             }
             const old = querySQL.insertIntoFull('send_receive_old', oldValues);
             const his = querySQL.insertIntoFull('history', hisValues);
-
+            console.log(old);console.log(his);
             await db.query(old);
             await db.query(his);
 

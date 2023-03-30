@@ -3,6 +3,7 @@ const generalModel = require('../model/generalModel')
 class GeneralController {
 
     async login(req, res) {
+        res.header("Access-Control-Allow-Origin", "*");
         const username = req.query.username;
         const password = req.query.password;
 
@@ -10,12 +11,12 @@ class GeneralController {
 
         const result = await generalModel.loginModel(username, password);
 
-        res.header("Access-Control-Allow-Origin", "*");
         res.json(result);
     }
 
     // Thông tin chi tiết product
     async productDetails(req, res) {
+        res.header("Access-Control-Allow-Origin", "*");
         const id = req.query.id;
         const batchId = req.query.batch;
         const importId = req.query.import;
@@ -27,7 +28,6 @@ class GeneralController {
         
         const result = await generalModel.productDetailsModel(batchId, importId, productId, oldId);
 
-        res.header("Access-Control-Allow-Origin", "*");
         res.json(result);
     }
 
@@ -40,6 +40,7 @@ class GeneralController {
     }
 
     async customerProfile(req, res) {
+        res.header("Access-Control-Allow-Origin", "*");
         const id = req.query.id;
         const customerId = req.query.customerId;
 
@@ -48,11 +49,11 @@ class GeneralController {
         
         const result = await generalModel.customerProfileModel(customerId);
 
-        res.header("Access-Control-Allow-Origin", "*");
         res.json(result);
     }
 
     async accountProfile(req, res) {
+        res.header("Access-Control-Allow-Origin", "*");
         const id = req.query.id;
 
         if (!id) return res.status(400).send('Cú pháp không hợp lệ');
@@ -60,7 +61,6 @@ class GeneralController {
         
         const result = await generalModel.accountProfileModel(id);
 
-        res.header("Access-Control-Allow-Origin", "*");
         res.json(result);
     }
 
@@ -132,6 +132,7 @@ class GeneralController {
     }
 
     async otherAccountProfile(req, res) {
+        res.header("Access-Control-Allow-Origin", "*");
         const id = req.body.id;
         const name = req.body.name;
 
@@ -140,7 +141,6 @@ class GeneralController {
         
         const result = await generalModel.otherAccountProfileModel(name);
 
-        res.header("Access-Control-Allow-Origin", "*");
         res.json(result);
     }
 

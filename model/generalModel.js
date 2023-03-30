@@ -48,13 +48,20 @@ class GeneralModel {
         const [history, fields2] = await db.query(historyPr);
         
         var listHis = new Array;
-        const prSql = querySQL.selectFromTableWhere(['name'], 'account', ['accountId'], [history[0].locationId]);
-        const agSql = querySQL.selectFromTableWhere(['name'], 'account', ['accountId'], [history[1].locationId]);
+        var prSql, agSql;
+        if (history.length > 0) prSql = querySQL.selectFromTableWhere(['name'], 'account', ['accountId'], [history[0].locationId]);
+        if (history.length > 1) agSql = querySQL.selectFromTableWhere(['name'], 'account', ['accountId'], [history[1].locationId]);
 
-        const [pr, fieldsPr] = await db.query(prSql);
-        const [ag, fieldsAg] = await db.query(agSql);
-        const producerName = pr[0].name;
-        const agentName = ag[0].name;
+        var producerName;
+        var agentName;
+        if (prSql) {
+            const [pr, fieldsPr] = await db.query(prSql);
+            if (pr.length > 0) producerName = pr[0].name;
+        }
+        if (agSql) {
+            const [ag, fieldsAg] = await db.query(agSql);
+            if (ag.length > 0) agentName = ag[0].name
+        }
         var customerName = '';
 
         for (var i = 0; i < history.length; i++) {
@@ -181,7 +188,7 @@ class GeneralModel {
             const find = querySQL.selectFromTableWhere(['accountId'], 'account', ['email'], [email]);
             const [result, fields] = await db.query(find);
 
-            if (result.length == 0) return {access: false, mess: 'Email đã đăng ký'};
+            if (result.length > 0) return {access: false, mess: 'Email đã đăng ký'};
 
             // send otp
             const mailServer = 'systemvct@gmail.com';
@@ -193,7 +200,7 @@ class GeneralModel {
                 secure: true,
                 auth: {
                     user: mailServer,
-                    pass: 'fgphnxvfildhrqsr'
+                    pass: 'rgivjbxyihvfqeyh'
                 }
             });
             var content = 'Đây là mã OTP: ' + token;
@@ -223,7 +230,7 @@ class GeneralModel {
             if (result.length == 0) return {access: false, mess: 'OTP không chính xác'};
 
             const delOTP = querySQL.delete('otp', ['id', 'otp'], [id, otp]);
-            const updateEmaiil = querySQL.updateSet('account', ['email'], [result[0].email], ['accountId'], [id]);
+            const updateEmaiil = querySQL.updateSet('account', ['email', 'cfEmail'], [result[0].email, '1'], ['accountId'], [id]);
             await db.query(delOTP);
             await db.query(updateEmaiil);
         
@@ -258,7 +265,7 @@ class GeneralModel {
                 secure: true,
                 auth: {
                     user: mailServer,
-                    pass: 'fgphnxvfildhrqsr'
+                    pass: 'rgivjbxyihvfqeyh'
                 }
             });
             var content = 'Đây là mã OTP: ' + token;

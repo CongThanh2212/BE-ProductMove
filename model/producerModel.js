@@ -81,6 +81,7 @@ class ProducerModel {
             // agentId
             const agent = querySQL.selectFromTableWhere(['accountId'], 'account', ['name'], [agentName]);
             const [result, fields] = await db.query(agent);
+            if (result.length == 0) return ({access: false, mess: 'Không tìm thấy đại lý'});
             const agentId = result[0].accountId;
 
             for (var i = 0; i < arrBatch.length; i++) {
@@ -101,7 +102,7 @@ class ProducerModel {
 
             return {access: true};
         } catch (error) {
-            return ({access: false})
+            return ({access: false});
         }
     }
 

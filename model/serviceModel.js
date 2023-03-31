@@ -116,13 +116,17 @@ class ServiceModel {
     async sendServiceMonthModel(serviceId) {
         const sql = "SELECT MONTH(sendServiceDate) as month, YEAR(sendServiceDate) as year, COUNT(*) as amount "
             + "FROM services "
+            + "WHERE serviceId = '" + serviceId + "' AND MONTH(sendServiceDate) IS NOT NULL "
             + "GROUP BY month, year "
-            + "HAVING serviceId = '" + serviceId + "' AND month IS NOT NULL";
+            + "ORDER BY sendServiceDate";
         
         try {
             const [result, fields] = await db.query(sql);
-
-            return result;
+            
+            return {
+                access: true,
+                list: result
+            };
         } catch (error) {
             return {access: false};
         }
@@ -131,13 +135,17 @@ class ServiceModel {
     async sendServiceYearModel(serviceId) {
         const sql = "SELECT YEAR(sendServiceDate) as year, COUNT(*) as amount "
             + "FROM services "
+            + "WHERE serviceId = '" + serviceId + "' AND YEAR(sendServiceDate) IS NOT NULL "
             + "GROUP BY year "
-            + "HAVING serviceId = '" + serviceId + "' AND year IS NOT NULL";
+            + "ORDER BY sendServiceDate";
         
         try {
             const [result, fields] = await db.query(sql);
 
-            return result;
+            return {
+                access: true,
+                list: result
+            };
         } catch (error) {
             return {access: false};
         }
@@ -146,13 +154,17 @@ class ServiceModel {
     async fixedMonthModel(serviceId) {
         const sql = "SELECT MONTH(sendFixedDate) as month,YEAR(sendFixedDate) as year, COUNT(*) as amount "
             + "FROM services "
+            + "WHERE serviceId = '" + serviceId + "' AND MONTH(sendFixedDate) IS NOT NULL "
             + "GROUP BY month, year "
-            + "HAVING serviceId = '" + serviceId + "' AND month IS NOT NULL";
+            + "ORDER BY sendFixedDate";
         
         try {
             const [result, fields] = await db.query(sql);
 
-            return result;
+            return {
+                access: true,
+                list: result
+            };
         } catch (error) {
             return {access: false};
         }
@@ -161,13 +173,17 @@ class ServiceModel {
     async fixedYearModel(serviceId) {
         const sql = "SELECT YEAR(sendFixedDate) as year, COUNT(*) as amount "
             + "FROM services "
+            + "WHERE serviceId = '" + serviceId + "' AND YEAR(sendFixedDate) IS NOT NULL "
             + "GROUP BY year "
-            + "HAVING serviceId = '" + serviceId + "' AND year IS NOT NULL";
+            + "ORDER BY sendFixedDate";
         
         try {
             const [result, fields] = await db.query(sql);
 
-            return result;
+            return {
+                access: true,
+                list: result
+            };
         } catch (error) {
             return {access: false};
         }
@@ -176,13 +192,17 @@ class ServiceModel {
     async failMonthModel(serviceId) {
         const sql = "SELECT MONTH(sendFailDate) as month,YEAR(sendFailDate) as year, COUNT(*) as amount "
             + "FROM product "
+            + "WHERE lastServiceId = '" + serviceId + "' AND sendFailDate IS NOT NULL "
             + "GROUP BY month, year "
-            + "HAVING lastServiceId = '" + serviceId + "' AND month IS NOT NULL";
+            + "ORDER BY sendFailDate";
         
         try {
             const [result, fields] = await db.query(sql);
 
-            return result;
+            return {
+                access: true,
+                list: result
+            };
         } catch (error) {
             return {access: false};
         }
@@ -191,13 +211,17 @@ class ServiceModel {
     async failYearModel(serviceId) {
         const sql = "SELECT YEAR(sendFailDate) as year, COUNT(*) as amount "
             + "FROM product "
+            + "WHERE lastServiceId = '" + serviceId + "' AND sendFailDate IS NOT NULL "
             + "GROUP BY year "
-            + "HAVING lastServiceId = '" + serviceId + "' AND year IS NOT NULL";
+            + "ORDER BY sendFailDate";
         
         try {
             const [result, fields] = await db.query(sql);
 
-            return result;
+            return {
+                access: true,
+                list: result
+            };
         } catch (error) {
             return {access: false};
         }

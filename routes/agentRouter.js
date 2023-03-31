@@ -12,10 +12,10 @@ router.get('/list-fixed', agent.listReceiveFixed) //
 router.get('/list-old', agent.listOld) //
 router.get('/list-sold-no-error', agent.listSoldNoError) //
 router.get('/list-fail', agent.listFail) //
-router.get('/statistical-sold-by-month', agent.statisticalSoldByMonth)
-router.get('/statistical-sold-by-year', agent.statisticalSoldByYear)
-router.get('/statistical-import-by-month', agent.statisticalImportByMonth)
-router.get('/statistical-import-by-year', agent.statisticalImportByYear)
+router.get('/statistical-sold-by-month', agent.statisticalSoldByMonth)//
+router.get('/statistical-sold-by-year', agent.statisticalSoldByYear)//
+router.get('/statistical-import-by-month', agent.statisticalImportByMonth)//
+router.get('/statistical-import-by-year', agent.statisticalImportByYear)//
 
 router.post('/sell-product', agent.sellProduct) //
 router.post('/return-old', agent.returnOldBatch) //

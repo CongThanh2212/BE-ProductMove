@@ -7,12 +7,12 @@ router.get('/list-export', producer.listExport) //
 router.get('/list-new-product', producer.listNewProduct) //
 router.get('/message-old-and-fail', producer.listOldAndFailNotReceiveYet) //
 router.get('/list-old-and-fail', producer.listOldAndFailReceived) //
-router.get('/statistical-fail-by-product-line', producer.statisticalFailByProductLine)
-router.get('/statistical-fail-by-agent', producer.statisticalFailByAgent)
-router.get('/statistical-fail-by-service', producer.statisticalFailByService)
+router.get('/statistical-fail-by-product-line', producer.statisticalFailByProductLine)//
+router.get('/statistical-fail-by-agent', producer.statisticalFailByAgent)//
+router.get('/statistical-fail-by-service', producer.statisticalFailByService)//
 router.get('/statistical-old-by-agent', producer.statisticalOldByAgent)
-router.get('/statistical-produce-by-month', producer.statisticalProduceByMonth)
-router.get('/statistical-produce-by-year', producer.statisticalProduceByYear)
+router.get('/statistical-produce-by-month', producer.statisticalProduceByMonth)//
+router.get('/statistical-produce-by-year', producer.statisticalProduceByYear)//
 router.get('/statistical-export-by-month', producer.statisticalExportByMonth)
 router.get('/statistical-export-by-year', producer.statisticalExportByYear)
 router.get('/list-product-type', producer.listProductType) //

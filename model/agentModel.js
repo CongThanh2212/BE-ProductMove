@@ -336,13 +336,17 @@ class AgentModel {
     async soldByMonthModel(agentId) {
         const sql = "SELECT MONTH(sellDate) as month, YEAR(sellDate) as year, COUNT(*) as amount "
             + "FROM product "
+            + "WHERE agentId = '" + agentId + "' "
             + "GROUP BY month, year "
-            + "HAVING agentId = '" + agentId + "'";
+            + "ORDER BY sellDate";
         
         try {
             const [result, fields] = await db.query(sql);
         
-            return result;
+            return {
+                access: true,
+                list: result
+            };
         } catch (error) {
             return ({access: false})
         }
@@ -351,13 +355,17 @@ class AgentModel {
     async soldByYearModel(agentId) {
         const sql = "SELECT YEAR(sellDate) as year, COUNT(*) as amount "
             + "FROM product "
+            + "WHERE agentId = '" + agentId + "' "
             + "GROUP BY year "
-            + "HAVING agentId = '" + agentId + "'";
+            + "ORDER BY sellDate";
         
         try {
             const [result, fields] = await db.query(sql);
         
-            return result;
+            return {
+                access: true,
+                list: result
+            };
         } catch (error) {
             return ({access: false})
         }
@@ -366,13 +374,16 @@ class AgentModel {
     async importMonthModel(agentId) {
         const sql = "SELECT MONTH(receiveDate) as month, YEAR(receiveDate) as year, SUM(amountStart) as amount "
             + "FROM send_receive_agent "
+            + "WHERE agentId = '" + agentId + "' AND status = 'received_agent' "
             + "GROUP BY year, month "
-            + "HAVING agentId = '" + agentId + "' AND status = 'received_agent'";
+            + "ORDER BY receiveDate";
         
         try {
             const [result, fields] = await db.query(sql);
-        
-            return result;
+            return {
+                access: true,
+                list: result
+            };
         } catch (error) {
             return ({access: false})
         }
@@ -381,13 +392,17 @@ class AgentModel {
     async importYearModel(agentId) {
         const sql = "SELECT YEAR(receiveDate) as year, SUM(amountStart) as amount "
             + "FROM send_receive_agent "
+            + "WHERE agentId = '" + agentId + "' AND status = 'received_agent' "
             + "GROUP BY year "
-            + "HAVING agentId = '" + agentId + "' AND status = 'received_agent'";
+            + "ORDER BY receiveDate";
         
         try {
             const [result, fields] = await db.query(sql);
         
-            return result;
+            return {
+                access: true,
+                list: result
+            };
         } catch (error) {
             return ({access: false})
         }

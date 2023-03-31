@@ -95,100 +95,172 @@ class ManagementModel {
         }
     }
 
-    async producerModel() {
+    async producerProduceModel() {
         try {
             const produceSql = "SELECT producerId, SUM(amountStart) as amount "
                 + "FROM new_product "
                 + "GROUP BY producerId";
-            const failSql = "SELECT producerId, COUNT(*) as amount "
-                + "FROM product "
-                + "GROUP BY producerId "
-                + "HAVING status = 'send_fail' OR status = 'received_fail'";
 
             const [result0, fields0] = await db.query(produceSql);
-            const [result1, fields1] = await db.query(failSql);
-            var produce = new Array;
-            var fail = new Array;
+            var arrName = new Array;
+            var arrAmount = new Array;
+            
             for (var i = 0; i < result0.length; i++) {
                 const producer = querySQL.selectFromTableWhere(['name'], 'account', ['accountId'], [result0[i].producerId]);
 
                 const [name, fields] = await db.query(producer);
-                produce.push({name: name[0].name, amount: result0[i].amount});
-            }
-            for (var i = 0; i < result1.length; i++) {
-                const producer = querySQL.selectFromTableWhere(['name'], 'account', ['accountId'], [result1[i].producerId]);
-
-                const [name, fields] = await db.query(producer);
-                fail.push({name: name[0].name, amount: result1[i].amount});
+                arrName.push(name[0].name);
+                arrAmount.push(result0[i].amount);
             }
             
-            return ({produce: produce, fail: fail});
+            return {
+                access: true,
+                name: arrName,
+                amount: arrAmount
+            };
         } catch (error) {
             return {access: false};
         } 
     }
 
-    async agentModel() {
+    async producerFailModel() {
+        try {
+            const failSql = "SELECT producerId, COUNT(*) as amount "
+                + "FROM product "
+                + "WHERE status = 'send_fail' OR status = 'received_fail' "
+                + "GROUP BY producerId ";
+
+            const [result1, fields1] = await db.query(failSql);
+            var arrName = new Array;
+            var arrAmount = new Array;
+            
+            for (var i = 0; i < result1.length; i++) {
+                const producer = querySQL.selectFromTableWhere(['name'], 'account', ['accountId'], [result1[i].producerId]);
+
+                const [name, fields] = await db.query(producer);
+                arrName.push(name[0].name);
+                arrAmount.push(result1[i].amount);
+            }
+            
+            return {
+                access: true,
+                name: arrName,
+                amount: arrAmount
+            };
+        } catch (error) {
+            return {access: false};
+        } 
+    }
+
+    async agentSoldModel() {
         try {
             const soldSql = "SELECT agentId, COUNT(*) as amount "
                 + "FROM product "
                 + "GROUP BY agentId";
-            const oldSql = "SELECT agentId, SUM(amount) as amount "
-                + "FROM send_receive_old "
-                + "GROUP BY agentId";
 
             const [result0, fields0] = await db.query(soldSql);
-            const [result1, fields1] = await db.query(oldSql);
-            var sold = new Array;
-            var old = new Array;
+            var arrName = new Array;
+            var arrAmount = new Array;
+
             for (var i = 0; i < result0.length; i++) {
                 const agent = querySQL.selectFromTableWhere(['name'], 'account', ['accountId'], [result0[i].agentId]);
 
                 const [name, fields] = await db.query(agent);
-                sold.push({name: name[0].name, amount: result0[i].amount});
-            }
-            for (var i = 0; i < result1.length; i++) {
-                const agent = querySQL.selectFromTableWhere(['name'], 'account', ['accountId'], [result1[i].agentId]);
-
-                const [name, fields] = await db.query(agent);
-                old.push({name: name[0].name, amount: result1[i].amount});
+                arrName.push(name[0].name);
+                arrAmount.push(result0[i].amount);
             }
             
-            return ({sold: sold, old: old}); 
+            return {
+                access: true,
+                name: arrName,
+                amount: arrAmount
+            };
         } catch (error) {
             return {access: false};
         }
     }
 
-    async serviceModel() {
+    async agentOldModel() {
+        try {
+            const oldSql = "SELECT agentId, SUM(amount) as amount "
+                + "FROM send_receive_old "
+                + "GROUP BY agentId";
+
+            const [result1, fields1] = await db.query(oldSql);
+            var arrName = new Array;
+            var arrAmount = new Array;
+
+            for (var i = 0; i < result1.length; i++) {
+                const agent = querySQL.selectFromTableWhere(['name'], 'account', ['accountId'], [result1[i].agentId]);
+
+                const [name, fields] = await db.query(agent);
+                arrName.push(name[0].name);
+                arrAmount.push(result1[i].amount);
+            }
+            
+            return {
+                access: true,
+                name: arrName,
+                amount: arrAmount
+            };
+        } catch (error) {
+            return {access: false};
+        }
+    }
+
+    async serviceFixedModel() {
         try {
             const fixedSql = "SELECT serviceId, COUNT(*) as amount "
                 + "FROM services "
-                + "GROUP BY serviceId "
-                + "HAVING sendFixedDate IS NOT NULL";
-            const failSql = "SELECT serviceId, COUNT(*) as amount "
-                + "FROM product "
-                + "GROUP BY serviceId "
-                + "HAVING status = 'send_fail' OR status = 'received_fail'";
+                + "WHERE sendFixedDate IS NOT NULL "
+                + "GROUP BY serviceId ";
 
             const [result0, fields0] = await db.query(fixedSql);
-            const [result1, fields1] = await db.query(failSql);
-            var fixed = new Array;
-            var fail = new Array;
+            var arrName = new Array;
+            var arrAmount = new Array;
+
             for (var i = 0; i < result0.length; i++) {
                 const service = querySQL.selectFromTableWhere(['name'], 'account', ['accountId'], [result0[i].serviceId]);
 
                 const [name, fields] = await db.query(service);
-                fixed.push({name: name[0].name, amount: result0[i].amount});
-            }
-            for (var i = 0; i < result1.length; i++) {
-                const service = querySQL.selectFromTableWhere(['name'], 'account', ['accountId'], [result1[i].serviceId]);
-
-                const [name, fields] = await db.query(service);
-                fail.push({name: name[0].name, amount: result1[i].amount});
+                arrName.push(name[0].name);
+                arrAmount.push(result0[i].amount);
             }
             
-            return ({fixed: fixed, fail: fail}); 
+            return {
+                access: true,
+                name: arrName,
+                amount: arrAmount
+            };
+        } catch (error) {
+            return {access: false};
+        }
+    }
+
+    async serviceFailModel() {
+        try {
+            const failSql = "SELECT lastServiceId, COUNT(*) as amount "
+                + "FROM product "
+                + "WHERE status = 'send_fail' OR status = 'received_fail' "
+                + "GROUP BY lastServiceId ";
+
+            const [result1, fields1] = await db.query(failSql);
+            var arrName = new Array;
+            var arrAmount = new Array;
+            
+            for (var i = 0; i < result1.length; i++) {
+                const service = querySQL.selectFromTableWhere(['name'], 'account', ['accountId'], [result1[i].lastServiceId]);
+
+                const [name, fields] = await db.query(service);
+                arrName.push(name[0].name);
+                arrAmount.push(result1[i].amount);
+            }
+            
+            return {
+                access: true,
+                name: arrName,
+                amount: arrAmount
+            };
         } catch (error) {
             return {access: false};
         }

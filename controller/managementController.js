@@ -85,41 +85,80 @@ class ManagementController {
         res.json(result);
     }
 
-    // Add: Thống kê số lượng sản xuất và số lượng lỗi của Producer
-    async statisticalOfProducer(req, res) {
+    // Add: Thống kê số lượng sản xuất của Producer
+    async statisticalOfProducerProduce(req, res) {
         res.header("Access-Control-Allow-Origin", "*");
         const mgId = req.query.id;
 
         if (!mgId) return res.status(400).send('Cú pháp không hợp lệ');
         if (!await managementModel.checkManagementAccess(mgId)) return res.status(403).send('Không có quyền truy cập');
 
-        const result = await managementModel.producerModel();
+        const result = await managementModel.producerProduceModel();
 
         res.json(result);
     }
 
-    // Add: Thống kê số lượng bán ra và số lượng cũ của Agent
-    async statisticalOfAgent(req, res) {
+    // Add: Thống kê số lượng lỗi của Producer
+    async statisticalOfProducerFail(req, res) {
         res.header("Access-Control-Allow-Origin", "*");
         const mgId = req.query.id;
 
         if (!mgId) return res.status(400).send('Cú pháp không hợp lệ');
         if (!await managementModel.checkManagementAccess(mgId)) return res.status(403).send('Không có quyền truy cập');
 
-        const result = await managementModel.agentModel();
+        const result = await managementModel.producerFailModel();
 
         res.json(result);
     }
 
-    // Add: Thống kê số lượng sửa chữa thành công và số lượng thất bại của Service
-    async statisticalOfService(req, res) {
+    // Add: Thống kê số lượng bán ra của Agent
+    async statisticalOfAgentSold(req, res) {
         res.header("Access-Control-Allow-Origin", "*");
         const mgId = req.query.id;
 
         if (!mgId) return res.status(400).send('Cú pháp không hợp lệ');
         if (!await managementModel.checkManagementAccess(mgId)) return res.status(403).send('Không có quyền truy cập');
 
-        const result = await managementModel.serviceModel();
+        const result = await managementModel.agentSoldModel();
+
+        res.json(result);
+    }
+
+    // Add: Thống kê số lượng cũ của Agent
+    async statisticalOfAgentOld(req, res) {
+        res.header("Access-Control-Allow-Origin", "*");
+        const mgId = req.query.id;
+
+        if (!mgId) return res.status(400).send('Cú pháp không hợp lệ');
+        if (!await managementModel.checkManagementAccess(mgId)) return res.status(403).send('Không có quyền truy cập');
+
+        const result = await managementModel.agentOldModel();
+
+        res.json(result);
+    }
+
+    // Add: Thống kê số lượng sửa chữa thành công của Service
+    async statisticalOfServiceFixed(req, res) {
+        res.header("Access-Control-Allow-Origin", "*");
+        const mgId = req.query.id;
+
+        if (!mgId) return res.status(400).send('Cú pháp không hợp lệ');
+        if (!await managementModel.checkManagementAccess(mgId)) return res.status(403).send('Không có quyền truy cập');
+
+        const result = await managementModel.serviceFixedModel();
+
+        res.json(result);
+    }
+
+    // Add: Thống kê số lượng thất bại của Service
+    async statisticalOfServiceFail(req, res) {
+        res.header("Access-Control-Allow-Origin", "*");
+        const mgId = req.query.id;
+
+        if (!mgId) return res.status(400).send('Cú pháp không hợp lệ');
+        if (!await managementModel.checkManagementAccess(mgId)) return res.status(403).send('Không có quyền truy cập');
+
+        const result = await managementModel.serviceFailModel();
 
         res.json(result);
     }

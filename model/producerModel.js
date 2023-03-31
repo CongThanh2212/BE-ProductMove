@@ -167,12 +167,24 @@ class ProducerModel {
     async failByProductLineModel(producerId) {
         const sql = "SELECT productLine, COUNT(*) as amount "
             + "FROM product "
-            + "GROUP BY productLine "
-            + "HAVING producerId = '" + producerId + "' AND (status = 'send_fail' OR status = 'received_fail')";
+            + "WHERE producerId = '" + producerId + "' AND (status = 'send_fail' OR status = 'received_fail') "
+            + "GROUP BY productLine";
 
         try {
             const [result, fields] = await db.query(sql);
-            return result;
+            var arrName = new Array;
+            var arrAmount = new Array;
+
+            for (var i = 0; i < result.length; i++) {
+                arrName.push(result[0].productLine);
+                arrAmount.push(result[i].amount);
+            }
+            
+            return {
+                access: true,
+                productLine: arrName,
+                amount: arrAmount
+            };
         } catch (error) {
             return ({access: false})
         }
@@ -181,21 +193,27 @@ class ProducerModel {
     async failByAgentModel(producerId) {
         const sql = "SELECT agentId, COUNT(*) as amount "
             + "FROM product "
-            + "GROUP BY agentId "
-            + "HAVING producerId = '" + producerId + "' AND (status = 'send_fail' OR status = 'received_fail')";
+            + "WHERE producerId = '" + producerId + "' AND (status = 'send_fail' OR status = 'received_fail') "
+            + "GROUP BY agentId ";
         
         try {
             const [result, fields] = await db.query(sql);
+            var arrName = new Array;
+            var arrAmount = new Array;
 
-            var list = new Array;
             for (var i = 0; i < result.length; i++) {
                 const agentSql = querySQL.selectFromTableWhere(['name'], 'account', ['accountId'], [result[i].agentId]);
                 
-                const agent = await db.query(agentSql);
-                list.push({name: agent[0].name, amout: result[i].amount});
+                const [agent, fields] = await db.query(agentSql);
+                arrName.push(agent[0].name);
+                arrAmount.push(result[i].amount);
             }
             
-            return list;
+            return {
+                access: true,
+                name: arrName,
+                amount: arrAmount
+            };
         } catch (error) {
             return ({access: false})
         }
@@ -204,21 +222,27 @@ class ProducerModel {
     async failByServiceModel(producerId) {
         const sql = "SELECT lastServiceId, COUNT(*) as amount "
             + "FROM product "
-            + "GROUP BY lastServiceId "
-            + "HAVING producerId = '" + producerId + "' AND (status = 'send_fail' OR status = 'received_fail')";
+            + "WHERE producerId = '" + producerId + "' AND (status = 'send_fail' OR status = 'received_fail') "
+            + "GROUP BY lastServiceId";
         
         try {
             const [result, fields] = await db.query(sql);
+            var arrName = new Array;
+            var arrAmount = new Array;
 
-            var list = new Array;
             for (var i = 0; i < result.length; i++) {
                 const serviceSql = querySQL.selectFromTableWhere(['name'], 'account', ['accountId'], [result[i].lastServiceId]);
                 
-                const service = await db.query(serviceSql);
-                list.push({name: service[0].name, amout: result[i].amount});
+                const [service, fields] = await db.query(serviceSql);
+                arrName.push(service[0].name);
+                arrAmount.push(result[i].amount);
             }
             
-            return list;
+            return {
+                access: true,
+                name: arrName,
+                amount: arrAmount
+            };
         } catch (error) {
             return ({access: false})
         }
@@ -227,21 +251,27 @@ class ProducerModel {
     async oldByAgentModel(producerId) {
         const sql = "SELECT agentId, SUM(amount) as amount "
             + "FROM send_receive_old "
-            + "GROUP BY agentId "
-            + "HAVING producerId = '" + producerId + "'";
+            + "WHERE producerId = '" + producerId + "' "
+            + "GROUP BY agentId ";
         
         try {
             const [result, fields] = await db.query(sql);
+            var arrName = new Array;
+            var arrAmount = new Array;
 
-            var list = new Array;
             for (var i = 0; i < result.length; i++) {
                 const agentSql = querySQL.selectFromTableWhere(['name'], 'account', ['accountId'], [result[i].agentId]);
                 
-                const agent = await db.query(agentSql);
-                list.push({name: agent[0].name, amout: result[i].amount});
+                const [agent, fields] = await db.query(agentSql);
+                arrName.push(agent[0].name);
+                arrAmount.push(result[i].amount);
             }
             
-            return list;
+            return {
+                access: true,
+                name: arrName,
+                amount: arrAmount
+            };
         } catch (error) {
             return ({access: false})
         }
@@ -250,13 +280,17 @@ class ProducerModel {
     async produceByMonthModel(producerId) {
         const sql = "SELECT MONTH(date) as month, YEAR(date) as year, SUM(amountStart) as amount "
             + "FROM new_product "
+            + "WHERE producerId = '" + producerId + "' "
             + "GROUP BY month, year "
-            + "HAVING producerId = '" + producerId + "'";
+            + "ORDER BY date";
         
         try {
             const [result, fields] = await db.query(sql);
         
-            return result;
+            return {
+                access: true,
+                list: result
+            };
         } catch (error) {
             return ({access: false})
         }
@@ -265,13 +299,17 @@ class ProducerModel {
     async produceByYearModel(producerId) {
         const sql = "SELECT YEAR(date) as year, SUM(amountStart) as amount "
             + "FROM new_product "
+            + "WHERE producerId = '" + producerId + "' "
             + "GROUP BY year "
-            + "HAVING producerId = '" + producerId + "'";
+            + "ORDER BY date";
         
         try {
             const [result, fields] = await db.query(sql);
         
-            return result;
+            return {
+                access: true,
+                list: result
+            };
         } catch (error) {
             return ({access: false})
         }
@@ -280,13 +318,17 @@ class ProducerModel {
     async exportByMonthModel(producerId) {
         const sql = "SELECT MONTH(sendDate) as month, YEAR(sendDate) as year, SUM(amountStart) as amount "
             + "FROM send_receive_agent "
+            + "WHERE producerId = '" + producerId + "' "
             + "GROUP BY month, year "
-            + "HAVING producerId = '" + producerId + "'";
+            + "ORDER BY sendDate";
         
         try {
             const [result, fields] = await db.query(sql);
         
-            return result;
+            return {
+                access: true,
+                list: result
+            };
         } catch (error) {
             return ({access: false})
         }
@@ -295,13 +337,17 @@ class ProducerModel {
     async exportByYearModel(producerId) {
         const sql = "SELECT YEAR(sendDate) as year, SUM(amountStart) as amount "
             + "FROM send_receive_agent "
+            + "WHERE producerId = '" + producerId + "' "
             + "GROUP BY year "
-            + "HAVING producerId = '" + producerId + "'";
+            + "ORDER BY sendDate";
         
         try {
             const [result, fields] = await db.query(sql);
         
-            return result;
+            return {
+                access: true,
+                list: result
+            };
         } catch (error) {
             return ({access: false})
         }

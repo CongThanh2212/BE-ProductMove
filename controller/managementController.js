@@ -3,7 +3,7 @@ const managementModel = require('../model/managementModel')
 class ManagementController {
 
     async listAccount(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const mgId = req.query.id;
 
         if (!mgId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -16,7 +16,7 @@ class ManagementController {
 
     // Lấy profile thông qua username
     async profileAccount(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const mgId = req.query.id;
         const userName = req.query.userName;
 
@@ -30,7 +30,7 @@ class ManagementController {
 
     // Thu hồi tài khoản thông qua username
     async deleteAccount(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const mgId = req.body.id;
         const userName = req.body.userName;
 
@@ -43,7 +43,7 @@ class ManagementController {
     }
 
     async createrAccount(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const mgId = req.body.id;
         const userName = req.body.userName;
         const password = req.body.password;
@@ -58,7 +58,7 @@ class ManagementController {
     }
 
     async listProductLine(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const mgId = req.query.id;
 
         if (!mgId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -71,7 +71,7 @@ class ManagementController {
 
     // Add
     async createProductLine(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const mgId = req.body.id;
         const name = req.body.name;
         const WM = req.body.WM;
@@ -87,7 +87,7 @@ class ManagementController {
 
     // Add: Thống kê số lượng sản xuất của Producer
     async statisticalOfProducerProduce(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const mgId = req.query.id;
 
         if (!mgId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -100,7 +100,7 @@ class ManagementController {
 
     // Add: Thống kê số lượng lỗi của Producer
     async statisticalOfProducerFail(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const mgId = req.query.id;
 
         if (!mgId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -113,7 +113,7 @@ class ManagementController {
 
     // Add: Thống kê số lượng bán ra của Agent
     async statisticalOfAgentSold(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const mgId = req.query.id;
 
         if (!mgId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -126,7 +126,7 @@ class ManagementController {
 
     // Add: Thống kê số lượng cũ của Agent
     async statisticalOfAgentOld(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const mgId = req.query.id;
 
         if (!mgId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -139,7 +139,7 @@ class ManagementController {
 
     // Add: Thống kê số lượng sửa chữa thành công của Service
     async statisticalOfServiceFixed(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const mgId = req.query.id;
 
         if (!mgId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -152,7 +152,7 @@ class ManagementController {
 
     // Add: Thống kê số lượng thất bại của Service
     async statisticalOfServiceFail(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const mgId = req.query.id;
 
         if (!mgId) return res.status(400).send('Cú pháp không hợp lệ');

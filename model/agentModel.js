@@ -14,8 +14,9 @@ class AgentModel {
         return false;
     }
 
-    async sellModel(agentId, customerName, customerPhone, customerAddress, arrProduct, sellDate) {
+    async sellModel(agentId, customerName, customerPhone, customerAddress, arrProduct) {
         try {
+            let sellDate = (new Date()).toISOString();
             const customerId = 'CS' + randomstring.generate(7);;
             const customer = querySQL.insertIntoFull('customer', [[customerId, customerName, customerPhone, customerAddress]]);
             await db.query(customer);
@@ -50,8 +51,9 @@ class AgentModel {
         }
     }
 
-    async returnOldModel(agentId, arrProduct, date) {
+    async returnOldModel(agentId, arrProduct) {
         try {
+            let date = (new Date()).toISOString();
             var oldValues = [];
             var hisValues = [];
             for (var i = 0; i < arrProduct.length; i++) {
@@ -103,8 +105,9 @@ class AgentModel {
         }
     }
 
-    async soldToServiceModel(agentId, serviceName, date, arrProduct) {
+    async soldToServiceModel(agentId, serviceName, arrProduct) {
         try {
+            let date = (new Date()).toISOString();
             const sv = querySQL.selectFromTableWhere(['accountId'], 'account', ['name'], [serviceName]);
             const [result, fields] = await db.query(sv);
             if (result.length == 0) return {access: false, mess: 'Không tồn tại TTBH'};
@@ -135,8 +138,9 @@ class AgentModel {
         }
     }
 
-    async recallToServiceModel(serviceName, date, arrProduct) {
+    async recallToServiceModel(serviceName, arrProduct) {
         try {
+            let date = (new Date()).toISOString();
             const sv = querySQL.selectFromTableWhere(['accountId'], 'account', ['name'], [serviceName]);
             const [result, fields] = await db.query(sv);
             if (result.length == 0) return {access: false, mess: 'Không tồn tại TTBH'};
@@ -167,7 +171,7 @@ class AgentModel {
     async listServiceModel(agentId) {
         const sql = "SELECT * "
             + "FROM product "
-            + "WHERE status = 'send_service' OR status = 'fixing' OR status = 'send_fixed'";
+            + "WHERE (status = 'send_service' OR status = 'fixing' OR status = 'send_fixed') and agentId = '" + agentId + "'";
         
         try {
             const [result, fields] = await db.query(sql);
@@ -181,7 +185,7 @@ class AgentModel {
     async listReceiveFixedModel(agentId) {
         const sql = "SELECT * "
             + "FROM product "
-            + "WHERE status = 'received_fixed'";
+            + "WHERE status = 'received_fixed' and agentId = '" + agentId + "'";
         
         try {
             const [result, fields] = await db.query(sql);
@@ -192,7 +196,8 @@ class AgentModel {
         }
     }
 
-    async returnCustomerModel(productId, numberOfService, date, customerId) {
+    async returnCustomerModel(productId, numberOfService, customerId) {
+        let date = (new Date()).toISOString();
         const updateSv = querySQL.updateSet('services', ['returnCustomerDate'], [date], ['productId', 'numberOfService'],
             [productId, numberOfService]);
         const updatePr = querySQL.updateSet('product', ['status'], ['return_customer'], ['productId'], [productId]);
@@ -237,8 +242,9 @@ class AgentModel {
         }
     }
 
-    async recallModel(agentId, arrProduct, date) {
+    async recallModel(agentId, arrProduct) {
         try {
+            let date = (new Date()).toISOString();
             var servicesValue = [], hisValue = [];
             for (var i = 0; i < arrProduct.length; i++) {
                 const pr = arrProduct[i];

@@ -3,7 +3,7 @@ const serviceModel = require('../model/serviceModel')
 class ServiceController {
 
     async listFail(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const serviceId = req.query.serviceId;
 
         if (!serviceId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -15,7 +15,7 @@ class ServiceController {
     }
 
     async listFixed(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const serviceId = req.query.serviceId;
 
         if (!serviceId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -27,7 +27,7 @@ class ServiceController {
     }
 
     async listFixing(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const serviceId = req.query.serviceId;
 
         if (!serviceId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -39,7 +39,7 @@ class ServiceController {
     }
 
     async listSendService(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const serviceId = req.query.serviceId;
 
         if (!serviceId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -51,53 +51,50 @@ class ServiceController {
     }
 
     async receiveSendService(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const serviceId = req.body.serviceId;
         const productId = req.body.productId;
-        const date = req.body.date;
         const numberOfService = req.body.numberOfService;
 
-        if (!serviceId || !productId || !date || !numberOfService) return res.status(400).send('Cú pháp không hợp lệ');
+        if (!serviceId || !productId || !numberOfService) return res.status(400).send('Cú pháp không hợp lệ');
         if (!await serviceModel.checkServiceAccess(serviceId)) return res.status(403).send('Không có quyền truy cập');
         
-        const result = await serviceModel.receiveSendServiceModel(serviceId, productId, date, numberOfService);
+        const result = await serviceModel.receiveSendServiceModel(serviceId, productId, numberOfService);
 
         res.json(result);
     }
 
     async sendFixed(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const serviceId = req.body.serviceId;
         const agentId = req.body.agentId;
         const productId = req.body.productId;
-        const date = req.body.date;
         const numberOfService = req.body.numberOfService;
 
-        if (!serviceId || !productId || !date || !numberOfService || !agentId) return res.status(400).send('Cú pháp không hợp lệ');
+        if (!serviceId || !productId || !numberOfService || !agentId) return res.status(400).send('Cú pháp không hợp lệ');
         if (!await serviceModel.checkServiceAccess(serviceId)) return res.status(403).send('Không có quyền truy cập');
         
-        const result = await serviceModel.sendFixedModel(productId, date, numberOfService, agentId);
+        const result = await serviceModel.sendFixedModel(productId, numberOfService, agentId);
 
         res.json(result);
     }
 
     async sendFail(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const serviceId = req.body.serviceId;
         const producerId = req.body.producerId;
         const productId = req.body.productId;
-        const date = req.body.date;
 
-        if (!serviceId || !productId || !date || !producerId) return res.status(400).send('Cú pháp không hợp lệ');
+        if (!serviceId || !productId || !producerId) return res.status(400).send('Cú pháp không hợp lệ');
         if (!await serviceModel.checkServiceAccess(serviceId)) return res.status(403).send('Không có quyền truy cập');
         
-        const result = await serviceModel.sendFailModel(productId, date, producerId);
+        const result = await serviceModel.sendFailModel(productId, producerId);
 
         res.json(result);
     }
 
     async statisticalSendServiceByMonth(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const serviceId = req.query.serviceId;
 
         if (!serviceId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -109,7 +106,7 @@ class ServiceController {
     }
 
     async statisticalSendServiceByYear(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const serviceId = req.query.serviceId;
 
         if (!serviceId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -121,7 +118,7 @@ class ServiceController {
     }
 
     async statisticalFixedByMonth(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const serviceId = req.query.serviceId;
 
         if (!serviceId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -133,7 +130,7 @@ class ServiceController {
     }
 
     async statisticalFixedByYear(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const serviceId = req.query.serviceId;
 
         if (!serviceId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -145,7 +142,7 @@ class ServiceController {
     }
 
     async statisticalFailByMonth(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const serviceId = req.query.serviceId;
 
         if (!serviceId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -157,7 +154,7 @@ class ServiceController {
     }
 
     async statisticalFailByYear(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const serviceId = req.query.serviceId;
 
         if (!serviceId) return res.status(400).send('Cú pháp không hợp lệ');

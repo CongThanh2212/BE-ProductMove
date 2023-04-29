@@ -3,7 +3,7 @@ const generalModel = require('../model/generalModel')
 class GeneralController {
 
     async login(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const username = req.query.username;
         const password = req.query.password;
 
@@ -16,7 +16,7 @@ class GeneralController {
 
     // Thông tin chi tiết product
     async productDetails(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const id = req.query.id;
         const batchId = req.query.batch;
         const importId = req.query.import;
@@ -40,7 +40,7 @@ class GeneralController {
     }
 
     async customerProfile(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const id = req.query.id;
         const customerId = req.query.customerId;
 
@@ -53,7 +53,7 @@ class GeneralController {
     }
 
     async accountProfile(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const id = req.query.id;
 
         if (!id) return res.status(400).send('Cú pháp không hợp lệ');
@@ -65,7 +65,7 @@ class GeneralController {
     }
 
     async confirmEmail(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
 
         const id = req.body.id;
         const email = req.body.email;
@@ -79,7 +79,7 @@ class GeneralController {
     }
 
     async cfAndUpdateEmail(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
 
         const id = req.body.id;
         const otp = req.body.otp;
@@ -93,7 +93,7 @@ class GeneralController {
     }
 
     async forgotOrChange(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
 
         const email = req.body.email;
         const id = req.body.id;
@@ -106,7 +106,7 @@ class GeneralController {
     }
 
     async verificationForgotOrChange(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
 
         const otp = req.body.otp;
 
@@ -118,7 +118,7 @@ class GeneralController {
     }
 
     async changePass(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
 
         const id = req.body.id;
         const password = req.body.password;
@@ -132,7 +132,7 @@ class GeneralController {
     }
 
     async otherAccountProfile(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const id = req.body.id;
         const name = req.body.name;
 
@@ -145,7 +145,7 @@ class GeneralController {
     }
 
     async editAccount(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
 
         const id = req.body.id;
         const name = req.body.name;

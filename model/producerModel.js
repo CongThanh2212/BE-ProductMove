@@ -29,13 +29,14 @@ class ProducerModel {
 
     async importModel(producerId, arrBatch) {
         try {
+            let date = (new Date()).toISOString();
             for (var i = 0; i < arrBatch.length; i++) {
                 const batchId = 'BATCH' + randomstring.generate(7);
                 const batch = arrBatch[i];
                 const addBatch = querySQL.insertIntoFull('new_product',
                     [[batchId, batch.batchNumber, batch.amount, batch.amount, batch.productLine, batch.capacity, batch.color,
-                    batch.DOM, batch.WM, batch.date, producerId]]);
-                const history = querySQL.insertIntoFull('history', [[batchId, 'Mới sản xuất', batch.date, producerId]]);
+                    batch.DOM, batch.WM, date, producerId]]);
+                const history = querySQL.insertIntoFull('history', [[batchId, 'Mới sản xuất', date, producerId]]);
                 
                 await db.query(addBatch);
                 await db.query(history);
@@ -76,8 +77,9 @@ class ProducerModel {
         }
     }
 
-    async exportModel(producerId, agentName, arrBatch, date) {
+    async exportModel(producerId, agentName, arrBatch) {
         try {
+            let date = (new Date()).toISOString();
             // agentId
             const agent = querySQL.selectFromTableWhere(['accountId'], 'account', ['name'], [agentName]);
             const [result, fields] = await db.query(agent);
@@ -120,7 +122,8 @@ class ProducerModel {
         }
     }
 
-    async receiveOldModel(oldBatchId, producerId, date) {
+    async receiveOldModel(oldBatchId, producerId) {
+        let date = (new Date()).toISOString();
         const receive = querySQL.updateSet('send_receive_old', ['status', 'receiveDate'], ['received_old', date],
             ['oldBatchId'], [oldBatchId]);
         const history = querySQL.insertIntoFull('history', [[oldBatchId, 'Nhận sản phẩm cũ', date, producerId]]);
@@ -135,7 +138,8 @@ class ProducerModel {
         }
     }
 
-    async receiveFailModel(productId, producerId, date) {
+    async receiveFailModel(productId, producerId) {
+        let date = (new Date()).toISOString();
         const receive = querySQL.updateSet('product', ['status', 'receiveFailDate'], ['received_fail', date],
             ['productId'], [productId]);
         const history = querySQL.insertIntoFull('history', [[productId, 'Nhận sản phẩm lỗi', date, producerId]]);

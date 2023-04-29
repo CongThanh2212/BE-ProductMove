@@ -3,37 +3,35 @@ const agentModel = require('../model/agentModel')
 class AgentController {
 
     async sellProduct(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const agentId = req.body.agentId;
         const customerName = req.body.customerName;
         const customerPhone = req.body.customerPhone;
         const customerAddress = req.body.customerAddress;
         const arrProduct = JSON.parse(req.body.arrProduct);
-        const sellDate = req.body.date;
-        if (!agentId || arrProduct.length == 0 || !customerName || !customerPhone || !customerAddress || !sellDate) return res.status(400).send('Cú pháp không hợp lệ');
+        if (!agentId || arrProduct.length == 0 || !customerName || !customerPhone || !customerAddress) return res.status(400).send('Cú pháp không hợp lệ');
         if (!await agentModel.checkAgentAccess(agentId)) return res.status(403).send('Không có quyền truy cập');
         
-        const result = await agentModel.sellModel(agentId, customerName, customerPhone, customerAddress, arrProduct, sellDate);
+        const result = await agentModel.sellModel(agentId, customerName, customerPhone, customerAddress, arrProduct);
 
         res.json(result);
     }
 
     async returnOldBatch(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const agentId = req.body.agentId;
-        const date = req.body.date;
         const arrProduct = JSON.parse(req.body.arrProduct);
 
-        if (!agentId || arrProduct.length == 0 || !date) return res.status(400).send('Cú pháp không hợp lệ');
+        if (!agentId || arrProduct.length == 0) return res.status(400).send('Cú pháp không hợp lệ');
         if (!await agentModel.checkAgentAccess(agentId)) return res.status(403).send('Không có quyền truy cập');
         
-        const result = await agentModel.returnOldModel(agentId, arrProduct, date);
+        const result = await agentModel.returnOldModel(agentId, arrProduct);
 
         res.json(result);
     }
 
     async listReceiveAgent(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const agentId = req.query.agentId;
 
         if (!agentId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -45,7 +43,7 @@ class AgentController {
     }
 
     async listRecall(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const agentId = req.query.agentId;
 
         if (!agentId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -57,37 +55,35 @@ class AgentController {
     }
 
     async soldToService(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const agentId = req.body.agentId;
         const serviceName = req.body.serviceName;
-        const date = req.body.date;
         const arrProduct = JSON.parse(req.body.arrProduct);
 
-        if (!agentId || !serviceName || !date || arrProduct.length == 0) return res.status(400).send('Cú pháp không hợp lệ');
+        if (!agentId || !serviceName || arrProduct.length == 0) return res.status(400).send('Cú pháp không hợp lệ');
         if (!await agentModel.checkAgentAccess(agentId)) return res.status(403).send('Không có quyền truy cập');
         
-        const result = await agentModel.soldToServiceModel(agentId, serviceName, date, arrProduct);
+        const result = await agentModel.soldToServiceModel(agentId, serviceName, arrProduct);
 
         res.json(result);
     }
 
     async recallToService(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const agentId = req.body.agentId;
         const serviceName = req.body.serviceName;
-        const date = req.body.date;
         const arrProduct = JSON.parse(req.body.arrProduct);
 
-        if (!agentId || !serviceName || !date || arrProduct.length == 0) return res.status(400).send('Cú pháp không hợp lệ');
+        if (!agentId || !serviceName || arrProduct.length == 0) return res.status(400).send('Cú pháp không hợp lệ');
         if (!await agentModel.checkAgentAccess(agentId)) return res.status(403).send('Không có quyền truy cập');
         
-        const result = await agentModel.recallToServiceModel(serviceName, date, arrProduct);
+        const result = await agentModel.recallToServiceModel(serviceName, arrProduct);
 
         res.json(result);
     }
 
     async listService(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const agentId = req.query.agentId;
 
         if (!agentId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -99,7 +95,7 @@ class AgentController {
     }
 
     async listReceiveFixed(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const agentId = req.query.agentId;
 
         if (!agentId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -111,23 +107,22 @@ class AgentController {
     }
 
     async returnCustomer(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const agentId = req.body.agentId;
         const productId = req.body.productId;
         const numberOfService = req.body.numberOfService;
-        const date = req.body.date;
         const customerId = req.body.customerId;
 
-        if (!agentId || !productId || !numberOfService || !date || !customerId) return res.status(400).send('Cú pháp không hợp lệ');
+        if (!agentId || !productId || !numberOfService || !customerId) return res.status(400).send('Cú pháp không hợp lệ');
         if (!await agentModel.checkAgentAccess(agentId)) return res.status(403).send('Không có quyền truy cập');
         
-        const result = await agentModel.returnCustomerModel(productId, numberOfService, date, customerId);
+        const result = await agentModel.returnCustomerModel(productId, numberOfService, customerId);
 
         res.json(result);
     }
 
     async listOld(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const agentId = req.query.agentId;
 
         if (!agentId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -139,7 +134,7 @@ class AgentController {
     }
 
     async listSoldNoError(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const agentId = req.query.agentId;
 
         if (!agentId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -151,21 +146,20 @@ class AgentController {
     }
 
     async recall(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const agentId = req.body.agentId;
         const arrProduct = JSON.parse(req.body.arrProduct);
-        const date = req.body.date;
 
-        if (!agentId || arrProduct.length == 0 || !date) return res.status(400).send('Cú pháp không hợp lệ');
+        if (!agentId || arrProduct.length == 0) return res.status(400).send('Cú pháp không hợp lệ');
         if (!await agentModel.checkAgentAccess(agentId)) return res.status(403).send('Không có quyền truy cập');
         
-        const result = await agentModel.recallModel(agentId, arrProduct, date);
+        const result = await agentModel.recallModel(agentId, arrProduct);
 
         res.json(result);
     }
 
     async listFail(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const agentId = req.query.agentId;
 
         if (!agentId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -177,7 +171,7 @@ class AgentController {
     }
 
     async listSendFixed(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const agentId = req.query.agentId;
 
         if (!agentId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -189,7 +183,7 @@ class AgentController {
     }
 
     async receiveFixed(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const agentId = req.body.agentId;
         const date = req.body.date;
         const productId = req.body.productId;
@@ -204,7 +198,7 @@ class AgentController {
     }
 
     async listSendAgent(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const agentId = req.query.agentId;
 
         if (!agentId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -216,7 +210,7 @@ class AgentController {
     }
 
     async receiveNewProduct(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const agentId = req.body.agentId;
         const date = req.body.date;
         const importBatchId = req.body.importBatchId;
@@ -230,7 +224,7 @@ class AgentController {
     }
 
     async statisticalSoldByMonth(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const agentId = req.query.agentId;
 
         if (!agentId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -242,7 +236,7 @@ class AgentController {
     }
 
     async statisticalSoldByYear(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const agentId = req.query.agentId;
 
         if (!agentId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -254,7 +248,7 @@ class AgentController {
     }
 
     async statisticalImportByMonth(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const agentId = req.query.agentId;
 
         if (!agentId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -266,7 +260,7 @@ class AgentController {
     }
 
     async statisticalImportByYear(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const agentId = req.query.agentId;
 
         if (!agentId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -278,7 +272,7 @@ class AgentController {
     }
 
     async searchService(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const agentId = req.body.agentId;
         const keyWord = req.body.keyWord;
 

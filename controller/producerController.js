@@ -4,7 +4,7 @@ class ProducerController {
 
     // list batch xuất đi
     async listExport(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const producerId = req.query.producerId;
 
         if (!producerId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -32,7 +32,7 @@ class ProducerController {
         ]
     */
     async importBatch(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const producerId = req.body.producerId;
         const arrBatch = JSON.parse(req.body.arrBatch);
 
@@ -46,7 +46,7 @@ class ProducerController {
 
     // List các loại product
     async listProductType(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const producerId = req.query.producerId;
 
         if (!producerId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -59,7 +59,7 @@ class ProducerController {
 
     // List các batch còn trong kho
     async listNewProduct(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const producerId = req.query.producerId;
 
         if (!producerId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -89,25 +89,24 @@ class ProducerController {
         ]
     */
     async exportForAgent(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const producerId = req.body.producerId;
         const agentName = req.body.agentName;
-        const date = req.body.date;
         const arrBatch = JSON.parse(req.body.arrBatch);
-        if (!producerId || !agentName || arrBatch.length == 0 || !date) return res.status(400).send('Cú pháp không hợp lệ');
+        if (!producerId || !agentName || arrBatch.length == 0) return res.status(400).send('Cú pháp không hợp lệ');
         for (var i = 0; i < arrBatch.length; i++) {
             const batch = arrBatch[i];
             if((batch.amountInStorage - batch.amountExport) < 0) return res.status(400).send('Cú pháp không hợp lệ');
         }
         if (!await producerModel.checkProducerAccess(producerId)) return res.status(403).send('Không có quyền truy cập');
         
-        const result = await producerModel.exportModel(producerId, agentName, arrBatch, date);
+        const result = await producerModel.exportModel(producerId, agentName, arrBatch);
 
         res.json(result);
     }
 
     async listOldAndFailNotReceiveYet(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const producerId = req.query.producerId;
 
         if (!producerId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -119,35 +118,33 @@ class ProducerController {
     }
 
     async receiveOld(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const producerId = req.body.producerId;
         const oldBatchId = req.body.oldBatchId;
-        const date = req.body.date;
 
-        if (!producerId || !oldBatchId || !date) return res.status(400).send('Cú pháp không hợp lệ');
+        if (!producerId || !oldBatchId) return res.status(400).send('Cú pháp không hợp lệ');
         if (!await producerModel.checkProducerAccess(producerId)) return res.status(403).send('Không có quyền truy cập');
         
-        const result = await producerModel.receiveOldModel(oldBatchId, producerId, date);
+        const result = await producerModel.receiveOldModel(oldBatchId, producerId);
 
         res.json(result);
     }
 
     async receiveFail(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const producerId = req.body.producerId;
         const productId = req.body.productId;
-        const date = req.body.date;
 
         if (!producerId || !productId || !date) return res.status(400).send('Cú pháp không hợp lệ');
         if (!await producerModel.checkProducerAccess(producerId)) return res.status(403).send('Không có quyền truy cập');
         
-        const result = await producerModel.receiveFailModel(productId, producerId, date);
+        const result = await producerModel.receiveFailModel(productId, producerId);
 
         res.json(result);
     }
 
     async listOldAndFailReceived(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const producerId = req.query.producerId;
 
         if (!producerId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -159,7 +156,7 @@ class ProducerController {
     }
 
     async statisticalFailByProductLine(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const producerId = req.query.producerId;
 
         if (!producerId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -171,7 +168,7 @@ class ProducerController {
     }
 
     async statisticalFailByAgent(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const producerId = req.query.producerId;
 
         if (!producerId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -184,7 +181,7 @@ class ProducerController {
 
     // Add
     async statisticalFailByService(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const producerId = req.query.producerId;
 
         if (!producerId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -197,7 +194,7 @@ class ProducerController {
 
     // // Change
     async statisticalOldByAgent(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const producerId = req.query.producerId;
 
         if (!producerId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -209,7 +206,7 @@ class ProducerController {
     }
 
     async statisticalProduceByMonth(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const producerId = req.query.producerId;
 
         if (!producerId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -221,7 +218,7 @@ class ProducerController {
     }
 
     async statisticalProduceByYear(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const producerId = req.query.producerId;
 
         if (!producerId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -233,7 +230,7 @@ class ProducerController {
     }
 
     async statisticalExportByMonth(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const producerId = req.query.producerId;
 
         if (!producerId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -245,7 +242,7 @@ class ProducerController {
     }
 
     async statisticalExportByYear(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const producerId = req.query.producerId;
 
         if (!producerId) return res.status(400).send('Cú pháp không hợp lệ');
@@ -257,7 +254,7 @@ class ProducerController {
     }
 
     async searchAgent(req, res) {
-        res.header("Access-Control-Allow-Origin", "*");
+        
         const producerId = req.body.producerId;
         const keyWord = req.body.keyWord;
 

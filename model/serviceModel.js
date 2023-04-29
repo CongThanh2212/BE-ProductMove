@@ -65,7 +65,8 @@ class ServiceModel {
         }
     }
 
-    async receiveSendServiceModel(serviceId, productId, date, numberOfService) {
+    async receiveSendServiceModel(serviceId, productId, numberOfService) {
+        let date = (new Date()).toISOString();
         const updatePr = querySQL.updateSet('product', ['status'], ['fixing'], ['productId'], [productId]);
         const updateSv = querySQL.updateSet('services', ['fixingDate'], [date], ['productId', 'numberOfService'],
             [productId, numberOfService]);
@@ -82,7 +83,8 @@ class ServiceModel {
         }
     }
 
-    async sendFixedModel(productId, date, numberOfService, agentId) {
+    async sendFixedModel(productId, numberOfService, agentId) {
+        let date = (new Date()).toISOString();
         const updatePr = querySQL.updateSet('product', ['status'], ['send_fixed'], ['productId'], [productId]);
         const updateSv = querySQL.updateSet('services', ['sendFixedDate'], [date], ['productId', 'numberOfService'],
             [productId, numberOfService]);
@@ -99,7 +101,8 @@ class ServiceModel {
         }
     }
 
-    async sendFailModel(productId, date, producerId) {
+    async sendFailModel(productId, producerId) {
+        let date = (new Date()).toISOString();
         const updatePr = querySQL.updateSet('product', ['status', 'sendFailDate'], ['send_fail', date], ['productId'], [productId]);
         const history = querySQL.insertIntoFull('history', [[productId, 'Lỗi, trả về CSSX', date, producerId]]);
 

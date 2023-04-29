@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var cors = require('cors'); // Fix Access-Control-Allow-Origin
 
 var general = require('./routes/generalRouter');
 var management = require('./routes/managementRouter');
@@ -15,6 +16,9 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+
+// Fix Access-Control-Allow-Origin
+app.use(cors());
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -46,6 +50,10 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+app.listen(3001, () => {
+  console.log(`Server started on port 3001`);
 });
 
 module.exports = app;

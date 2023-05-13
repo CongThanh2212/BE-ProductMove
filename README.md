@@ -52,5 +52,8 @@ Vai trò của các bên tham gia như sau:
   * Chuyển sản phẩm bảo hành lỗi không thể sửa chữa về cơ sở sản xuất.
   * Thống kê và báo cáo số liệu sản phẩm theo từng loại (trạng thái), theo tháng, quý, năm.
 
+## Author
+Võ Công Thành - [thanhvc.uet@gmail.com](mailto:thanhvc.uet@gmail.com)
+
 ## Link front-end
 https://github.com/CongThanh2212/FE-ProductMove
